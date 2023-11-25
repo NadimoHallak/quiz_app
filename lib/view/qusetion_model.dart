@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class Question {
-    String question;
+  String question;
   num time;
   List<AnswerModel> answers;
   Question({
@@ -36,25 +36,28 @@ class Question {
     return Question(
       question: map['question'] ?? '',
       time: map['time'] ?? 0,
-      answers: List<AnswerModel>.from(map['answers']?.map((x) => AnswerModel.fromMap(x))),
+      answers: List<AnswerModel>.from(
+          map['answers']?.map((x) => AnswerModel.fromMap(x))),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Question.fromJson(String source) => Question.fromMap(json.decode(source));
+  factory Question.fromJson(String source) =>
+      Question.fromMap(json.decode(source));
 
   @override
-  String toString() => 'Question(question: $question, time: $time, answers: $answers)';
+  String toString() =>
+      'Question(question: $question, time: $time, answers: $answers)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is Question &&
-      other.question == question &&
-      other.time == time &&
-      listEquals(other.answers, answers);
+        other.question == question &&
+        other.time == time &&
+        listEquals(other.answers, answers);
   }
 
   @override
@@ -95,7 +98,8 @@ class AnswerModel {
 
   String toJson() => json.encode(toMap());
 
-  factory AnswerModel.fromJson(String source) => AnswerModel.fromMap(json.decode(source));
+  factory AnswerModel.fromJson(String source) =>
+      AnswerModel.fromMap(json.decode(source));
 
   @override
   String toString() => 'AnswerModel(answer: $answer, isCorrect: $isCorrect)';
@@ -103,10 +107,10 @@ class AnswerModel {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is AnswerModel &&
-      other.answer == answer &&
-      other.isCorrect == isCorrect;
+        other.answer == answer &&
+        other.isCorrect == isCorrect;
   }
 
   @override

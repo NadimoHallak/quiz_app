@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/view/qusetion_model.dart';
 
 class CreateQuestion extends StatefulWidget {
   const CreateQuestion({super.key});
@@ -7,72 +8,124 @@ class CreateQuestion extends StatefulWidget {
   State<CreateQuestion> createState() => _CreateQuestionState();
 }
 
+late Question question;
+
 class _CreateQuestionState extends State<CreateQuestion> {
+  int textFieldNum = 0;
+  List<TextEditingController> textEditingControllerList = [];
+  List<AnswerModel> answers = [];
+  TextEditingController questionController = TextEditingController();
+  TextEditingController questionTime = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   title: const CircularProgressIndicator(
-      //     value: 1.0,
-      //   ),
-      //   actions: const [
-      //     Padding(
-      //       padding: EdgeInsets.all(8.0),
-      //       child: Text("3"),
-      //     ),
-      //     Padding(
-      //       padding: EdgeInsets.all(8.0),
-      //       child: Text("5"),
-      //     ),
-      //   ],
-      // ),
+      appBar: AppBar(
+        actions: [
+          InkWell(
+            onTap: () {
+              for (var i = 0; i < textEditingControllerList.length; i++) {
+                answers[i].answer = textEditingControllerList[i].text;
+              }
+              question = Question(
+                question: questionController.text,
+                time: num.parse(questionTime.text),
+                answers: answers,
+              );
+            },
+            child: const Icon(
+              Icons.navigate_next_sharp,
+              size: 35,
+              color: Colors.purple,
+            ),
+          )
+        ],
+        title: const Text(
+          "Create a questions",
+          style: TextStyle(
+            color: Color.fromARGB(255, 185, 106, 199),
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: Column(
         children: [
-          Container(
-            width: double.infinity,
-            height: 90,
-            decoration: const BoxDecoration(
-              color: Colors.amber,
+          // Text("")
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 100,
+              vertical: 20,
             ),
-            child: const Center(
-              child: Text(
-                "question question questionquestionquestion question question questionquestionquestionquestion question question question question",
+            child: TextField(
+              controller: questionController,
+              decoration: const InputDecoration(
+                labelText: "Enter a question",
+                border: OutlineInputBorder(),
               ),
             ),
           ),
-          Container(
-            width: 300,
-            height: 300,
-            color: Colors.blue,
-            child: ListView.separated(
-              separatorBuilder: (context, index) => SizedBox(
-                height: 10,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 100,
+              vertical: 20,
+            ),
+            child: TextField(
+              controller: questionTime,
+              decoration: const InputDecoration(
+                labelText: "Enter a time",
+                border: OutlineInputBorder(),
               ),
-              itemCount: 10,
+            ),
+          ),
+          SizedBox(
+            height: 300,
+            width: double.maxFinite,
+            child: ListView.builder(
+              itemCount: textEditingControllerList.length,
               itemBuilder: (context, index) {
-                return Container(
-                  width: 30,
-                  height: 30,
-                  color: Colors.black,
+                print("index " + index.toString());
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 120, vertical: 20),
+                  child: SizedBox(
+                    height: 40,
+                    child: TextField(
+                      controller: textEditingControllerList[index],
+                      decoration: InputDecoration(
+                        prefix: Checkbox(
+                          value: false,
+                          onChanged: (value) {},
+                        ),
+                        // hintText: "${index + 1}",
+                        labelText: "Answer ${index + 1}",
+                        border: const OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
                 );
               },
             ),
           ),
-          // Container(
-          //   width: 200,
-          //   height: 500,
-          //   child: ListView.builder(
-          //     itemBuilder: (context, index) {
-          //       return Container(
-          //         color: Colors.blue,
-          //         child: Row(),
-          //       );
-          //     },
-          //   ),
-          // ),
         ],
       ),
+      floatingActionButton: InkWell(
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration:
+              const BoxDecoration(color: Colors.purple, shape: BoxShape.circle),
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+            size: 30,
+          ),
+        ),
+        onTap: () {
+          setState(() {
+            textEditingControllerList.add(TextEditingController());
+            print(textEditingControllerList[0].text);
+          });
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
