@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/test/create_question.dart';
+import 'package:quiz_app/test/display_question_option.dart';
 
 void main() {
   
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true),
-      home: const CreateQuestion(),
+      home: const DisplayQuestion(),
     );
   }
 }

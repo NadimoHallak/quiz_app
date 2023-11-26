@@ -8,7 +8,16 @@ class CreateQuestion extends StatefulWidget {
   State<CreateQuestion> createState() => _CreateQuestionState();
 }
 
-late Question question;
+Question question = Question(
+  question: "nadim nadim nadim nadim nadim nadim nadim nadimnadim nadim",
+  time: 20,
+  answers: [
+    AnswerModel(answer: "answer", isCorrect: false),
+    AnswerModel(answer: "nadim", isCorrect: true),
+    AnswerModel(answer: "yamen", isCorrect: false),
+    AnswerModel(answer: "saeed", isCorrect: false),
+  ],
+);
 
 class _CreateQuestionState extends State<CreateQuestion> {
   int textFieldNum = 0;
@@ -24,6 +33,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
           InkWell(
             onTap: () {
               for (var i = 0; i < textEditingControllerList.length; i++) {
+                textEditingControllerList[i].text = " ";
                 answers[i].answer = textEditingControllerList[i].text;
               }
               question = Question(
