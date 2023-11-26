@@ -79,6 +79,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
               vertical: 20,
             ),
             child: TextField(
+              textAlignVertical: TextAlignVertical.center,
               controller: questionTime,
               decoration: const InputDecoration(
                 labelText: "Enter a time",
@@ -97,8 +98,9 @@ class _CreateQuestionState extends State<CreateQuestion> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 120, vertical: 20),
                   child: SizedBox(
-                    height: 40,
+                    height: 70,
                     child: TextField(
+                      textAlignVertical: TextAlignVertical.center,
                       controller: textEditingControllerList[index],
                       decoration: InputDecoration(
                         prefix: Checkbox(
