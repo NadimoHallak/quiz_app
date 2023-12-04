@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/test/create_question.dart';
+import 'package:flutter_demo/view/page/display_all_question.dart';
+import 'package:flutter_demo/view/page/display_question.dart';
+import 'package:flutter_demo/view/page/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,13 +10,10 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: true),
-      home: const CreateQuestion(),
+    return const MaterialApp(
+      home: DisplayAllQuestion(),
     );
   }
 }
