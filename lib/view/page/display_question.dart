@@ -3,12 +3,15 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/model/response/question_model.dart';
 import 'package:flutter_demo/service/display_q_serv.dart';
+import 'package:flutter_demo/view/widget/circle_timer.dart';
+import 'package:flutter_demo/view/widget/question_card.dart';
 
 class DisplayOneQuestion extends StatelessWidget {
   DisplayOneQuestion({super.key, required this.id});
 
   String id;
   String? value = '';
+  bool right = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,79 +45,32 @@ class DisplayOneQuestion extends StatelessWidget {
                         children: [
                           Positioned(
                             top: 120,
-                            left: MediaQuery.of(context).size.width / 8,
+                            left: MediaQuery.of(context).size.width / 10,
+                            child: QuestionCard(question: question),
+                          ),
+                          Positioned(
+                            left: 160,
+                            top: 85,
+                            child: StatefulBuilder(
+                              builder: (context, StateSetter setState) {
+                                return const CircleTimer();
+                              },
+                            ),
+                          ),
+                          Positioned(
+                            left: 170,
+                            top: 95,
                             child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
+                              height: 50,
+                              width: 50,
+                              decoration: const BoxDecoration(
+                                color: Colors.transparent,
+                                shape: BoxShape.circle,
                               ),
-                              width: 281,
-                              height: 170,
-                              decoration: ShapeDecoration(
-                                gradient: const LinearGradient(
-                                  begin: Alignment(1.00, -0.02),
-                                  end: Alignment(-1, 0.02),
-                                  colors: [
-                                    Color(0xFFDA8BD9),
-                                    Color(0xFFF3BD6B)
-                                  ],
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  const Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text("03"),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          SizedBox(
-                                            width: 40,
-                                            child: LinearProgressIndicator(
-                                                // value: 1.0,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          SizedBox(
-                                            width: 40,
-                                            child: LinearProgressIndicator(
-                                                // value: 1.0,
-                                                ),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text("03"),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    question.question,
-                                    maxLines: 2,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontFamily: 'DM Sans',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
-                                    ),
-                                  )
-                                ],
+                              child: const CircularProgressIndicator(
+                                value: 0.7,
+                                color: Color(0xFF8D376F),
+                                strokeCap: StrokeCap.round,
                               ),
                             ),
                           ),
@@ -122,48 +78,69 @@ class DisplayOneQuestion extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: StatefulBuilder(builder:
-                          (BuildContext context, StateSetter setState) {
-                        return ListView.separated(
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 60),
-                              child: Container(
-                                // height: 50,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: RadioListTile(
-                                  selected: true,
-                                  contentPadding: const EdgeInsets.all(5),
-                                  title: Text(
-                                    question.answers[index].answer,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  value: question.answers[index].answer,
-                                  groupValue: value,
-                                  onChanged: (val) {
-                                    setState(() {
+                      child: StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                          return ListView.separated(
+                            itemBuilder: (BuildContext context, int index) {
+                              String rightAnswer = '';
+                              if (question.answers[index].isCorrect) {
+                                rightAnswer = question.answers[index].answer;
+                              }
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 60),
+                                child: Container(
+                                  // height: 50,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: RadioListTile(
+                                    controlAffinity:
+                                        ListTileControlAffinity.trailing,
+                                    selected: true,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 10),
+                                    title: Text(
+                                      question.answers[index].answer,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF8D376F)),
+                                    ),
+                                    value: question.answers[index].answer,
+                                    activeColor:
+                                        right ? Colors.green : Colors.red,
+                                   
+                                    selectedTileColor:
+                                        right ? Colors.green : Colors.red,
+                                    groupValue: value,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        value = val;
+                                        if (rightAnswer == value) {
+                                          right = true;
+                                          
+                                          
+                                        } else {
+                                          right = false;
+                                        }
+                                      });
                                       value = val;
-                                    });
-
-                                    value = val;
-                                  },
+                                    },
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) =>
-                              const SizedBox(
-                            height: 20,
-                          ),
-                          itemCount: question.answers.length,
-                        );
-                      }),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    const SizedBox(
+                              height: 20,
+                            ),
+                            itemCount: question.answers.length,
+                          );
+                        },
+                      ),
                     ),
-                    
                   ],
                 ),
               );

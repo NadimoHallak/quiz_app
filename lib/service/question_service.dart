@@ -7,7 +7,7 @@ abstract class QuestionService extends BaseService {
 
  Future<List<QuestionModel>> getAllQuestion();
  Future<QuestionModel> getOneQuestion(String id);
-  createNewQuestion(CreateQuestionModel newQestion);
+  createNewQuestion(QuestionModel newQestion);
   updateOldQuestion(String id,CreateQuestionModel newQestion);
   deleteQuestion(String id);
 }

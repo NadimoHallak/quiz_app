@@ -62,14 +62,14 @@ class DisplayQuestionServ extends QuestionService {
     // print(allQuestion[0].question);
     if (response.statusCode == 200) {
       return allQuestion;
-    } else
+    } else {
       return [];
+    }
   }
 
   @override
-  createNewQuestion(CreateQuestionModel newQestion) {
-    // TODO: implement createNewQuestion
-    throw UnimplementedError();
+  createNewQuestion(QuestionModel newQestion) async{
+   
   }
 
   @override
